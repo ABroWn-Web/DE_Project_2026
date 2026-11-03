@@ -22,10 +22,9 @@
 
 | Role | Name | Enrollment No. | GitHub Username |
 |------|------|----------------|-----------------|
-| Group Lead | | | |
-| Member 2 | | | |
-| Member 3 | | | |
-| Member 4 | | | |
+| Group Lead Harsh Sharma 2501010178 ABroWn-Web
+| Member 2 Pratham Verma 2501010679 WholeLottaOnes
+
 
 **Team No.:** ____ · **Section:** ____ · **Repository URL:** ____
 
