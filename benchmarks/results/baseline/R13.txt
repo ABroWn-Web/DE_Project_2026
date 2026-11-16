@@ -1,0 +1,36 @@
+=== R13 run 1 ===
+Seq Scan on clinics c  (cost=606.24..644.99 rows=750 width=32) (actual time=2.444..2.445 rows=0.00 loops=1)
+  Filter: (NOT (ANY (clinic_id = (hashed SubPlan 1).col1)))
+  Rows Removed by Filter: 1500
+  Buffers: shared hit=245
+  SubPlan 1
+    ->  Seq Scan on doctor_schedules sc  (cost=0.00..529.99 rows=30499 width=4) (actual time=0.003..1.063 rows=30499.00 loops=1)
+          Buffers: shared hit=225
+Planning:
+  Buffers: shared hit=109
+Planning Time: 0.248 ms
+Execution Time: 2.486 ms
+=== R13 run 2 ===
+Seq Scan on clinics c  (cost=606.24..644.99 rows=750 width=32) (actual time=2.764..2.765 rows=0.00 loops=1)
+  Filter: (NOT (ANY (clinic_id = (hashed SubPlan 1).col1)))
+  Rows Removed by Filter: 1500
+  Buffers: shared hit=245
+  SubPlan 1
+    ->  Seq Scan on doctor_schedules sc  (cost=0.00..529.99 rows=30499 width=4) (actual time=0.003..1.204 rows=30499.00 loops=1)
+          Buffers: shared hit=225
+Planning:
+  Buffers: shared hit=109
+Planning Time: 0.213 ms
+Execution Time: 2.805 ms
+=== R13 run 3 ===
+Seq Scan on clinics c  (cost=606.24..644.99 rows=750 width=32) (actual time=2.291..2.291 rows=0.00 loops=1)
+  Filter: (NOT (ANY (clinic_id = (hashed SubPlan 1).col1)))
+  Rows Removed by Filter: 1500
+  Buffers: shared hit=245
+  SubPlan 1
+    ->  Seq Scan on doctor_schedules sc  (cost=0.00..529.99 rows=30499 width=4) (actual time=0.003..0.974 rows=30499.00 loops=1)
+          Buffers: shared hit=225
+Planning:
+  Buffers: shared hit=109
+Planning Time: 0.224 ms
+Execution Time: 2.333 ms

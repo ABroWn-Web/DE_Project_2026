@@ -1,0 +1,60 @@
+=== R21 run 1 ===
+Limit  (cost=5572.07..5583.47 rows=100 width=25) (actual time=10.289..11.058 rows=100.00 loops=1)
+  Buffers: shared hit=2758
+  ->  Gather Merge  (cost=5572.07..8251.41 rows=23509 width=25) (actual time=10.288..11.053 rows=100.00 loops=1)
+        Workers Planned: 1
+        Workers Launched: 1
+        Buffers: shared hit=2758
+        ->  Sort  (cost=4572.06..4606.64 rows=13829 width=25) (actual time=9.340..9.342 rows=75.00 loops=2)
+              Sort Key: slot_start DESC
+              Sort Method: top-N heapsort  Memory: 38kB
+              Buffers: shared hit=2758
+              Worker 0:  Sort Method: top-N heapsort  Memory: 38kB
+              ->  Parallel Seq Scan on appointments  (cost=0.00..4043.53 rows=13829 width=25) (actual time=0.005..7.887 rows=12341.50 loops=2)
+                    Filter: (((status)::text = 'COMPLETED'::text) AND ((payment_status)::text = 'PENDING'::text))
+                    Rows Removed by Filter: 62658
+                    Buffers: shared hit=2720
+Planning:
+  Buffers: shared hit=102
+Planning Time: 0.187 ms
+Execution Time: 11.093 ms
+=== R21 run 2 ===
+Limit  (cost=5572.07..5583.47 rows=100 width=25) (actual time=10.614..11.448 rows=100.00 loops=1)
+  Buffers: shared hit=2758
+  ->  Gather Merge  (cost=5572.07..8251.41 rows=23509 width=25) (actual time=10.614..11.437 rows=100.00 loops=1)
+        Workers Planned: 1
+        Workers Launched: 1
+        Buffers: shared hit=2758
+        ->  Sort  (cost=4572.06..4606.64 rows=13829 width=25) (actual time=9.715..9.717 rows=75.00 loops=2)
+              Sort Key: slot_start DESC
+              Sort Method: top-N heapsort  Memory: 38kB
+              Buffers: shared hit=2758
+              Worker 0:  Sort Method: top-N heapsort  Memory: 38kB
+              ->  Parallel Seq Scan on appointments  (cost=0.00..4043.53 rows=13829 width=25) (actual time=0.006..8.169 rows=12341.50 loops=2)
+                    Filter: (((status)::text = 'COMPLETED'::text) AND ((payment_status)::text = 'PENDING'::text))
+                    Rows Removed by Filter: 62658
+                    Buffers: shared hit=2720
+Planning:
+  Buffers: shared hit=102
+Planning Time: 0.190 ms
+Execution Time: 11.475 ms
+=== R21 run 3 ===
+Limit  (cost=5572.07..5583.47 rows=100 width=25) (actual time=11.185..12.087 rows=100.00 loops=1)
+  Buffers: shared hit=2758
+  ->  Gather Merge  (cost=5572.07..8251.41 rows=23509 width=25) (actual time=11.185..12.076 rows=100.00 loops=1)
+        Workers Planned: 1
+        Workers Launched: 1
+        Buffers: shared hit=2758
+        ->  Sort  (cost=4572.06..4606.64 rows=13829 width=25) (actual time=10.198..10.200 rows=73.00 loops=2)
+              Sort Key: slot_start DESC
+              Sort Method: top-N heapsort  Memory: 38kB
+              Buffers: shared hit=2758
+              Worker 0:  Sort Method: top-N heapsort  Memory: 38kB
+              ->  Parallel Seq Scan on appointments  (cost=0.00..4043.53 rows=13829 width=25) (actual time=0.006..8.552 rows=12341.50 loops=2)
+                    Filter: (((status)::text = 'COMPLETED'::text) AND ((payment_status)::text = 'PENDING'::text))
+                    Rows Removed by Filter: 62658
+                    Buffers: shared hit=2720
+Planning:
+  Buffers: shared hit=102
+Planning Time: 0.197 ms
+Execution Time: 12.114 ms
