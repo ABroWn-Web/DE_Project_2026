@@ -1,0 +1,60 @@
+=== R22 run 1 ===
+Limit  (cost=0.42..1.62 rows=25 width=29) (actual time=0.102..0.122 rows=25.00 loops=1)
+  Buffers: shared hit=2 read=3
+  ->  Index Only Scan Backward using idx_appt_slot_covering on appointments  (cost=0.42..2383.64 rows=49810 width=29) (actual time=0.101..0.119 rows=25.00 loops=1)
+        Index Cond: (ROW(slot_start, appointment_id) < ROW('2025-07-08 12:15:00+05:30'::timestamp with time zone, 50125))
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=2 read=3
+Planning:
+  Buffers: shared hit=214
+Planning Time: 0.819 ms
+Execution Time: 0.159 ms
+=== R22 run 2 ===
+Limit  (cost=0.42..1.62 rows=25 width=29) (actual time=0.041..0.053 rows=25.00 loops=1)
+  Buffers: shared hit=5
+  ->  Index Only Scan Backward using idx_appt_slot_covering on appointments  (cost=0.42..2383.64 rows=49810 width=29) (actual time=0.041..0.051 rows=25.00 loops=1)
+        Index Cond: (ROW(slot_start, appointment_id) < ROW('2025-07-08 12:15:00+05:30'::timestamp with time zone, 50125))
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=5
+Planning:
+  Buffers: shared hit=214
+Planning Time: 0.588 ms
+Execution Time: 0.076 ms
+=== R22 run 3 ===
+Limit  (cost=0.42..1.62 rows=25 width=29) (actual time=0.078..0.092 rows=25.00 loops=1)
+  Buffers: shared hit=5
+  ->  Index Only Scan Backward using idx_appt_slot_covering on appointments  (cost=0.42..2383.64 rows=49810 width=29) (actual time=0.077..0.090 rows=25.00 loops=1)
+        Index Cond: (ROW(slot_start, appointment_id) < ROW('2025-07-08 12:15:00+05:30'::timestamp with time zone, 50125))
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=5
+Planning:
+  Buffers: shared hit=214
+Planning Time: 1.560 ms
+Execution Time: 0.136 ms
+=== R22 run 4 ===
+Limit  (cost=0.42..1.62 rows=25 width=29) (actual time=0.091..0.106 rows=25.00 loops=1)
+  Buffers: shared hit=5
+  ->  Index Only Scan Backward using idx_appt_slot_covering on appointments  (cost=0.42..2383.64 rows=49810 width=29) (actual time=0.090..0.103 rows=25.00 loops=1)
+        Index Cond: (ROW(slot_start, appointment_id) < ROW('2025-07-08 12:15:00+05:30'::timestamp with time zone, 50125))
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=5
+Planning:
+  Buffers: shared hit=214
+Planning Time: 1.157 ms
+Execution Time: 0.148 ms
+=== R22 run 5 ===
+Limit  (cost=0.42..1.62 rows=25 width=29) (actual time=0.042..0.052 rows=25.00 loops=1)
+  Buffers: shared hit=5
+  ->  Index Only Scan Backward using idx_appt_slot_covering on appointments  (cost=0.42..2383.64 rows=49810 width=29) (actual time=0.041..0.049 rows=25.00 loops=1)
+        Index Cond: (ROW(slot_start, appointment_id) < ROW('2025-07-08 12:15:00+05:30'::timestamp with time zone, 50125))
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=5
+Planning:
+  Buffers: shared hit=214
+Planning Time: 1.111 ms
+Execution Time: 0.079 ms

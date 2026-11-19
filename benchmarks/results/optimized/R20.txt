@@ -1,0 +1,120 @@
+=== R20 run 1 ===
+WindowAgg  (cost=947.58..1043.53 rows=5484 width=44) (actual time=2.467..2.479 rows=26.00 loops=1)
+  Window: w1 AS (ORDER BY ((appointments.slot_start)::date))
+  Storage: Memory  Maximum Storage: 17kB
+  Buffers: shared hit=67
+  ->  Sort  (cost=947.56..961.27 rows=5484 width=12) (actual time=2.432..2.434 rows=26.00 loops=1)
+        Sort Key: ((appointments.slot_start)::date)
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=67
+        ->  HashAggregate  (cost=538.43..606.98 rows=5484 width=12) (actual time=2.381..2.405 rows=26.00 loops=1)
+              Group Key: (appointments.slot_start)::date
+              Batches: 1  Memory Usage: 161kB
+              Buffers: shared hit=64
+              ->  Index Only Scan using idx_appt_slot_covering on appointments  (cost=0.42..505.50 rows=6585 width=4) (actual time=0.022..1.602 rows=6863.00 loops=1)
+                    Index Cond: ((slot_start >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (slot_start < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Filter: ((status)::text = 'COMPLETED'::text)
+                    Rows Removed by Filter: 1537
+                    Heap Fetches: 0
+                    Index Searches: 1
+                    Buffers: shared hit=64
+Planning:
+  Buffers: shared hit=253
+Planning Time: 1.095 ms
+Execution Time: 2.601 ms
+=== R20 run 2 ===
+WindowAgg  (cost=947.58..1043.53 rows=5484 width=44) (actual time=2.691..2.706 rows=26.00 loops=1)
+  Window: w1 AS (ORDER BY ((appointments.slot_start)::date))
+  Storage: Memory  Maximum Storage: 17kB
+  Buffers: shared hit=67
+  ->  Sort  (cost=947.56..961.27 rows=5484 width=12) (actual time=2.671..2.672 rows=26.00 loops=1)
+        Sort Key: ((appointments.slot_start)::date)
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=67
+        ->  HashAggregate  (cost=538.43..606.98 rows=5484 width=12) (actual time=2.624..2.654 rows=26.00 loops=1)
+              Group Key: (appointments.slot_start)::date
+              Batches: 1  Memory Usage: 161kB
+              Buffers: shared hit=64
+              ->  Index Only Scan using idx_appt_slot_covering on appointments  (cost=0.42..505.50 rows=6585 width=4) (actual time=0.015..1.746 rows=6863.00 loops=1)
+                    Index Cond: ((slot_start >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (slot_start < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Filter: ((status)::text = 'COMPLETED'::text)
+                    Rows Removed by Filter: 1537
+                    Heap Fetches: 0
+                    Index Searches: 1
+                    Buffers: shared hit=64
+Planning:
+  Buffers: shared hit=253
+Planning Time: 1.117 ms
+Execution Time: 2.789 ms
+=== R20 run 3 ===
+WindowAgg  (cost=947.58..1043.53 rows=5484 width=44) (actual time=2.327..2.339 rows=26.00 loops=1)
+  Window: w1 AS (ORDER BY ((appointments.slot_start)::date))
+  Storage: Memory  Maximum Storage: 17kB
+  Buffers: shared hit=67
+  ->  Sort  (cost=947.56..961.27 rows=5484 width=12) (actual time=2.307..2.308 rows=26.00 loops=1)
+        Sort Key: ((appointments.slot_start)::date)
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=67
+        ->  HashAggregate  (cost=538.43..606.98 rows=5484 width=12) (actual time=2.261..2.283 rows=26.00 loops=1)
+              Group Key: (appointments.slot_start)::date
+              Batches: 1  Memory Usage: 161kB
+              Buffers: shared hit=64
+              ->  Index Only Scan using idx_appt_slot_covering on appointments  (cost=0.42..505.50 rows=6585 width=4) (actual time=0.023..1.518 rows=6863.00 loops=1)
+                    Index Cond: ((slot_start >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (slot_start < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Filter: ((status)::text = 'COMPLETED'::text)
+                    Rows Removed by Filter: 1537
+                    Heap Fetches: 0
+                    Index Searches: 1
+                    Buffers: shared hit=64
+Planning:
+  Buffers: shared hit=253
+Planning Time: 1.140 ms
+Execution Time: 2.454 ms
+=== R20 run 4 ===
+WindowAgg  (cost=947.58..1043.53 rows=5484 width=44) (actual time=2.628..2.642 rows=26.00 loops=1)
+  Window: w1 AS (ORDER BY ((appointments.slot_start)::date))
+  Storage: Memory  Maximum Storage: 17kB
+  Buffers: shared hit=67
+  ->  Sort  (cost=947.56..961.27 rows=5484 width=12) (actual time=2.611..2.613 rows=26.00 loops=1)
+        Sort Key: ((appointments.slot_start)::date)
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=67
+        ->  HashAggregate  (cost=538.43..606.98 rows=5484 width=12) (actual time=2.563..2.586 rows=26.00 loops=1)
+              Group Key: (appointments.slot_start)::date
+              Batches: 1  Memory Usage: 161kB
+              Buffers: shared hit=64
+              ->  Index Only Scan using idx_appt_slot_covering on appointments  (cost=0.42..505.50 rows=6585 width=4) (actual time=0.021..1.705 rows=6863.00 loops=1)
+                    Index Cond: ((slot_start >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (slot_start < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Filter: ((status)::text = 'COMPLETED'::text)
+                    Rows Removed by Filter: 1537
+                    Heap Fetches: 0
+                    Index Searches: 1
+                    Buffers: shared hit=64
+Planning:
+  Buffers: shared hit=253
+Planning Time: 1.130 ms
+Execution Time: 2.754 ms
+=== R20 run 5 ===
+WindowAgg  (cost=947.58..1043.53 rows=5484 width=44) (actual time=2.893..2.904 rows=26.00 loops=1)
+  Window: w1 AS (ORDER BY ((appointments.slot_start)::date))
+  Storage: Memory  Maximum Storage: 17kB
+  Buffers: shared hit=67
+  ->  Sort  (cost=947.56..961.27 rows=5484 width=12) (actual time=2.875..2.876 rows=26.00 loops=1)
+        Sort Key: ((appointments.slot_start)::date)
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=67
+        ->  HashAggregate  (cost=538.43..606.98 rows=5484 width=12) (actual time=2.835..2.858 rows=26.00 loops=1)
+              Group Key: (appointments.slot_start)::date
+              Batches: 1  Memory Usage: 161kB
+              Buffers: shared hit=64
+              ->  Index Only Scan using idx_appt_slot_covering on appointments  (cost=0.42..505.50 rows=6585 width=4) (actual time=0.013..1.878 rows=6863.00 loops=1)
+                    Index Cond: ((slot_start >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (slot_start < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Filter: ((status)::text = 'COMPLETED'::text)
+                    Rows Removed by Filter: 1537
+                    Heap Fetches: 0
+                    Index Searches: 1
+                    Buffers: shared hit=64
+Planning:
+  Buffers: shared hit=253
+Planning Time: 0.789 ms
+Execution Time: 2.973 ms

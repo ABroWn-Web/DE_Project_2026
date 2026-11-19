@@ -1,0 +1,75 @@
+=== R05 run 1 ===
+Nested Loop  (cost=0.71..16.75 rows=1 width=41) (actual time=0.054..0.095 rows=3.00 loops=1)
+  Buffers: shared hit=14 read=1
+  ->  Index Scan using idx_appt_doctor_slot on appointments a  (cost=0.42..8.44 rows=1 width=33) (actual time=0.027..0.035 rows=3.00 loops=1)
+        Index Cond: ((doctor_id = 16) AND (slot_start >= '2026-06-30 00:00:00+05:30'::timestamp with time zone) AND (slot_start < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+        Index Searches: 1
+        Buffers: shared hit=5 read=1
+  ->  Index Scan using patients_pkey on patients p  (cost=0.29..8.31 rows=1 width=16) (actual time=0.017..0.017 rows=1.00 loops=3)
+        Index Cond: (patient_id = a.patient_id)
+        Index Searches: 3
+        Buffers: shared hit=9
+Planning:
+  Buffers: shared hit=414 read=6
+Planning Time: 1.639 ms
+Execution Time: 0.169 ms
+=== R05 run 2 ===
+Nested Loop  (cost=0.71..16.75 rows=1 width=41) (actual time=0.043..0.071 rows=3.00 loops=1)
+  Buffers: shared hit=15
+  ->  Index Scan using idx_appt_doctor_slot on appointments a  (cost=0.42..8.44 rows=1 width=33) (actual time=0.021..0.029 rows=3.00 loops=1)
+        Index Cond: ((doctor_id = 16) AND (slot_start >= '2026-06-30 00:00:00+05:30'::timestamp with time zone) AND (slot_start < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+        Index Searches: 1
+        Buffers: shared hit=6
+  ->  Index Scan using patients_pkey on patients p  (cost=0.29..8.31 rows=1 width=16) (actual time=0.012..0.012 rows=1.00 loops=3)
+        Index Cond: (patient_id = a.patient_id)
+        Index Searches: 3
+        Buffers: shared hit=9
+Planning:
+  Buffers: shared hit=420
+Planning Time: 1.265 ms
+Execution Time: 0.153 ms
+=== R05 run 3 ===
+Nested Loop  (cost=0.71..16.75 rows=1 width=41) (actual time=0.019..0.034 rows=3.00 loops=1)
+  Buffers: shared hit=15
+  ->  Index Scan using idx_appt_doctor_slot on appointments a  (cost=0.42..8.44 rows=1 width=33) (actual time=0.009..0.012 rows=3.00 loops=1)
+        Index Cond: ((doctor_id = 16) AND (slot_start >= '2026-06-30 00:00:00+05:30'::timestamp with time zone) AND (slot_start < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+        Index Searches: 1
+        Buffers: shared hit=6
+  ->  Index Scan using patients_pkey on patients p  (cost=0.29..8.31 rows=1 width=16) (actual time=0.006..0.006 rows=1.00 loops=3)
+        Index Cond: (patient_id = a.patient_id)
+        Index Searches: 3
+        Buffers: shared hit=9
+Planning:
+  Buffers: shared hit=420
+Planning Time: 2.046 ms
+Execution Time: 0.066 ms
+=== R05 run 4 ===
+Nested Loop  (cost=0.71..16.75 rows=1 width=41) (actual time=0.021..0.036 rows=3.00 loops=1)
+  Buffers: shared hit=15
+  ->  Index Scan using idx_appt_doctor_slot on appointments a  (cost=0.42..8.44 rows=1 width=33) (actual time=0.009..0.013 rows=3.00 loops=1)
+        Index Cond: ((doctor_id = 16) AND (slot_start >= '2026-06-30 00:00:00+05:30'::timestamp with time zone) AND (slot_start < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+        Index Searches: 1
+        Buffers: shared hit=6
+  ->  Index Scan using patients_pkey on patients p  (cost=0.29..8.31 rows=1 width=16) (actual time=0.006..0.006 rows=1.00 loops=3)
+        Index Cond: (patient_id = a.patient_id)
+        Index Searches: 3
+        Buffers: shared hit=9
+Planning:
+  Buffers: shared hit=420
+Planning Time: 2.344 ms
+Execution Time: 0.077 ms
+=== R05 run 5 ===
+Nested Loop  (cost=0.71..16.75 rows=1 width=41) (actual time=0.075..0.137 rows=3.00 loops=1)
+  Buffers: shared hit=15
+  ->  Index Scan using idx_appt_doctor_slot on appointments a  (cost=0.42..8.44 rows=1 width=33) (actual time=0.035..0.051 rows=3.00 loops=1)
+        Index Cond: ((doctor_id = 16) AND (slot_start >= '2026-06-30 00:00:00+05:30'::timestamp with time zone) AND (slot_start < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+        Index Searches: 1
+        Buffers: shared hit=6
+  ->  Index Scan using patients_pkey on patients p  (cost=0.29..8.31 rows=1 width=16) (actual time=0.025..0.025 rows=1.00 loops=3)
+        Index Cond: (patient_id = a.patient_id)
+        Index Searches: 3
+        Buffers: shared hit=9
+Planning:
+  Buffers: shared hit=420
+Planning Time: 1.848 ms
+Execution Time: 0.240 ms

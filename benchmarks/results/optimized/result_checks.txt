@@ -1,0 +1,54 @@
+SET
+SET
+CREATE FUNCTION
+=== 1. Original vs optimized results ===
+ query | rows_original | rows_optimized | only_in_original | only_in_optimized | same_order_of_keys |                     verdict                     
+-------+---------------+----------------+------------------+-------------------+--------------------+-------------------------------------------------
+ R05   |             3 |              3 |                0 |                 0 | t                  | SAME
+ R08   |            15 |             15 |                0 |                 0 | t                  | SAME
+ R12   |            14 |             14 |                0 |                 0 | t                  | SAME
+ R13   |             0 |            292 |                0 |               292 | f                  | FIXED (original returned 0 rows: NOT IN + NULL)
+ R14   |            20 |             20 |                1 |                 1 | t                  | SAME up to ties
+ R16   |            20 |             20 |                1 |                 1 | t                  | SAME up to ties
+ R19   |           480 |            480 |                0 |                 0 | t                  | SAME
+ R20   |            26 |             26 |                0 |                 0 | t                  | SAME
+ R21   |           100 |            100 |                0 |                 0 | t                  | SAME
+ R22   |            25 |             25 |                0 |                 0 | t                  | SAME
+ W02   |             1 |              1 |                0 |                 0 | t                  | SAME
+
+
+=== 2. R13: independent check of the fixed answer (LEFT JOIN ... IS NULL) ===
+ clinics_without_schedule | schedules_with_null_clinic | original_not_in_result | not_in_without_nulls 
+--------------------------+----------------------------+------------------------+----------------------
+                      292 |                       5899 |                      0 |                  292
+
+
+=== 3. Why tie-breakers were added: rows tied ACROSS the LIMIT/OFFSET boundary ===
+                   query                   |                      tied_values                      
+-------------------------------------------+-------------------------------------------------------
+ R14 rows 19-21 of top 20                  | (4.42,12) / (4.42,12) / (4.42,12)
+ R16 rows 19-21 of top 20                  | 10600.00 / 10600.00 / 10600.00
+ R21 rows 100-101 of top 100               | 2026-06-29 10:30:00+05:30 / 2026-06-29 10:30:00+05:30
+ R22 rows 100000-100001 (page edge)        | 2025-07-08 12:15:00+05:30 / 2025-07-08 12:15:00+05:30
+ W02 booked in-clinic at the earliest slot | 11 appointments at 2026-07-01 10:00:00+05:30
+
+
+=== 4. Index storage: each new index vs its table ===
+    table_name    |          index_name          | index_size | table_size | pct_of_table 
+------------------+------------------------------+------------+------------+--------------
+ appointments     | idx_appt_slot_covering       | 8720 kB    | 21 MB      |         40.1
+ appointments     | idx_appt_doctor_slot         | 8640 kB    | 21 MB      |         39.7
+ appointments     | idx_appt_patient_doctor_slot | 4640 kB    | 21 MB      |         21.3
+ appointments     | idx_appt_unpaid_completed    | 776 kB     | 21 MB      |          3.6
+ appointments     | idx_appt_open                | 72 kB      | 21 MB      |          0.3
+ doctor_schedules | idx_sched_clinic             | 736 kB     | 1800 kB    |         40.9
+ patients         | idx_patients_allergies_gin   | 80 kB      | 4264 kB    |          1.9
+ prescriptions    | idx_presc_issued_at          | 2000 kB    | 7296 kB    |         27.4
+ prescriptions    | idx_presc_follow_up          | 224 kB     | 7296 kB    |          3.1
+
+
+=== 5. Totals ===
+ new_indexes_total | all_tables_total | all_indexes_total | database_size 
+-------------------+------------------+-------------------+---------------
+ 25 MB             | 54 MB            | 45 MB             | 107 MB
+
