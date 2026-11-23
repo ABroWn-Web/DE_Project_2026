@@ -1,0 +1,201 @@
+=== R15 run 1 ===
+Incremental Sort  (cost=149333.90..149405.69 rows=225 width=38) (actual time=235.951..236.635 rows=225.00 loops=1)
+  Sort Key: s.spec_name, (count(*)) DESC
+  Presorted Key: s.spec_name
+  Full-sort Groups: 5  Sort Method: quicksort  Average Memory: 27kB  Peak Memory: 27kB
+  Buffers: shared hit=111352 read=94013
+  ->  Finalize GroupAggregate  (cost=149328.99..149398.19 rows=225 width=38) (actual time=235.907..236.570 rows=225.00 loops=1)
+        Group Key: s.spec_name, i.medicine_name
+        Buffers: shared hit=111349 read=94013
+        ->  Gather Merge  (cost=149328.99..149391.89 rows=540 width=38) (actual time=235.898..236.520 rows=675.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=111349 read=94013
+              ->  Sort  (cost=148328.97..148329.53 rows=225 width=38) (actual time=233.658..233.665 rows=225.00 loops=3)
+                    Sort Key: s.spec_name, i.medicine_name
+                    Sort Method: quicksort  Memory: 37kB
+                    Buffers: shared hit=111349 read=94013
+                    Worker 0:  Sort Method: quicksort  Memory: 37kB
+                    Worker 1:  Sort Method: quicksort  Memory: 37kB
+                    ->  Partial HashAggregate  (cost=148317.93..148320.18 rows=225 width=38) (actual time=233.520..233.533 rows=225.00 loops=3)
+                          Group Key: s.spec_name, i.medicine_name
+                          Batches: 1  Memory Usage: 48kB
+                          Buffers: shared hit=111333 read=94013
+                          Worker 0:  Batches: 1  Memory Usage: 48kB
+                          Worker 1:  Batches: 1  Memory Usage: 48kB
+                          ->  Parallel Hash Join  (cost=76650.99..147433.50 rows=117924 width=30) (actual time=208.552..223.660 rows=91544.00 loops=3)
+                                Hash Cond: (i.prescription_id = p.prescription_id)
+                                Buffers: shared hit=111333 read=94013
+                                ->  Parallel Seq Scan on prescription_items i  (cost=0.00..62695.39 rows=2025539 width=21) (actual time=0.064..39.447 rows=1620360.00 loops=3)
+                                      Buffers: shared read=42440
+                                ->  Parallel Hash  (cost=76061.39..76061.39 rows=47168 width=17) (actual time=107.564..107.566 rows=36609.00 loops=3)
+                                      Buckets: 131072  Batches: 1  Memory Usage: 6880kB
+                                      Buffers: shared hit=111333 read=51573
+                                      ->  Hash Join  (cost=5757.33..76061.39 rows=47168 width=17) (actual time=86.056..105.053 rows=36609.00 loops=3)
+                                            Hash Cond: (ds.spec_id = s.spec_id)
+                                            Buffers: shared hit=111333 read=51573
+                                            ->  Hash Join  (cost=5755.99..75901.25 rows=47168 width=6) (actual time=86.022..102.737 rows=36609.00 loops=3)
+                                                  Hash Cond: (a.doctor_id = ds.doctor_id)
+                                                  Buffers: shared hit=111331 read=51572
+                                                  ->  Parallel Hash Join  (cost=3939.23..73448.22 rows=43893 width=8) (actual time=80.498..91.342 rows=36609.00 loops=3)
+                                                        Hash Cond: (a.appointment_id = p.appointment_id)
+                                                        Buffers: shared hit=110675 read=51244
+                                                        ->  Parallel Seq Scan on appointments a  (cost=0.00..66227.80 rows=1249980 width=8) (actual time=0.051..28.980 rows=1000000.00 loops=3)
+                                                              Buffers: shared hit=3294 read=50434
+                                                        ->  Parallel Hash  (cost=3164.64..3164.64 rows=61967 width=8) (actual time=8.561..8.561 rows=36609.00 loops=3)
+                                                              Buckets: 131072  Batches: 1  Memory Usage: 5344kB
+                                                              Buffers: shared hit=107381 read=810
+                                                              ->  Parallel Index Scan using idx_presc_issued_at on prescriptions p  (cost=0.43..3164.64 rows=61967 width=8) (actual time=0.047..6.645 rows=36609.00 loops=3)
+                                                                    Index Cond: ((issued_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (issued_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                                                                    Index Searches: 1
+                                                                    Buffers: shared hit=107381 read=810
+                                                  ->  Hash  (cost=1068.00..1068.00 rows=59901 width=6) (actual time=5.479..5.480 rows=60000.00 loops=3)
+                                                        Buckets: 65536  Batches: 1  Memory Usage: 2739kB
+                                                        Buffers: shared hit=656 read=328
+                                                        ->  Seq Scan on doctor_specializations ds  (cost=0.00..1068.00 rows=59901 width=6) (actual time=0.019..2.792 rows=60000.00 loops=3)
+                                                              Filter: is_primary
+                                                              Rows Removed by Filter: 14000
+                                                              Buffers: shared hit=656 read=328
+                                            ->  Hash  (cost=1.15..1.15 rows=15 width=15) (actual time=0.028..0.028 rows=15.00 loops=3)
+                                                  Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                  Buffers: shared hit=2 read=1
+                                                  ->  Seq Scan on specializations s  (cost=0.00..1.15 rows=15 width=15) (actual time=0.024..0.025 rows=15.00 loops=3)
+                                                        Buffers: shared hit=2 read=1
+Planning:
+  Buffers: shared hit=625 read=41
+Planning Time: 1.466 ms
+Execution Time: 236.724 ms
+=== R15 run 2 ===
+Incremental Sort  (cost=149333.90..149405.69 rows=225 width=38) (actual time=237.513..238.842 rows=225.00 loops=1)
+  Sort Key: s.spec_name, (count(*)) DESC
+  Presorted Key: s.spec_name
+  Full-sort Groups: 5  Sort Method: quicksort  Average Memory: 27kB  Peak Memory: 27kB
+  Buffers: shared hit=113055 read=92310
+  ->  Finalize GroupAggregate  (cost=149328.99..149398.19 rows=225 width=38) (actual time=237.455..238.763 rows=225.00 loops=1)
+        Group Key: s.spec_name, i.medicine_name
+        Buffers: shared hit=113052 read=92310
+        ->  Gather Merge  (cost=149328.99..149391.89 rows=540 width=38) (actual time=237.448..238.711 rows=675.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=113052 read=92310
+              ->  Sort  (cost=148328.97..148329.53 rows=225 width=38) (actual time=235.675..235.717 rows=225.00 loops=3)
+                    Sort Key: s.spec_name, i.medicine_name
+                    Sort Method: quicksort  Memory: 37kB
+                    Buffers: shared hit=113052 read=92310
+                    Worker 0:  Sort Method: quicksort  Memory: 37kB
+                    Worker 1:  Sort Method: quicksort  Memory: 37kB
+                    ->  Partial HashAggregate  (cost=148317.93..148320.18 rows=225 width=38) (actual time=235.541..235.588 rows=225.00 loops=3)
+                          Group Key: s.spec_name, i.medicine_name
+                          Batches: 1  Memory Usage: 48kB
+                          Buffers: shared hit=113036 read=92310
+                          Worker 0:  Batches: 1  Memory Usage: 48kB
+                          Worker 1:  Batches: 1  Memory Usage: 48kB
+                          ->  Parallel Hash Join  (cost=76650.99..147433.50 rows=117924 width=30) (actual time=210.733..225.792 rows=91544.00 loops=3)
+                                Hash Cond: (i.prescription_id = p.prescription_id)
+                                Buffers: shared hit=113036 read=92310
+                                ->  Parallel Seq Scan on prescription_items i  (cost=0.00..62695.39 rows=2025539 width=21) (actual time=0.063..38.044 rows=1620360.00 loops=3)
+                                      Buffers: shared hit=282 read=42158
+                                ->  Parallel Hash  (cost=76061.39..76061.39 rows=47168 width=17) (actual time=115.541..115.577 rows=36609.00 loops=3)
+                                      Buckets: 131072  Batches: 1  Memory Usage: 6848kB
+                                      Buffers: shared hit=112754 read=50152
+                                      ->  Hash Join  (cost=5757.33..76061.39 rows=47168 width=17) (actual time=92.452..112.971 rows=36609.00 loops=3)
+                                            Hash Cond: (ds.spec_id = s.spec_id)
+                                            Buffers: shared hit=112754 read=50152
+                                            ->  Hash Join  (cost=5755.99..75901.25 rows=47168 width=6) (actual time=92.430..110.659 rows=36609.00 loops=3)
+                                                  Hash Cond: (a.doctor_id = ds.doctor_id)
+                                                  Buffers: shared hit=112751 read=50152
+                                                  ->  Parallel Hash Join  (cost=3939.23..73448.22 rows=43893 width=8) (actual time=86.434..97.918 rows=36609.00 loops=3)
+                                                        Hash Cond: (a.appointment_id = p.appointment_id)
+                                                        Buffers: shared hit=111767 read=50152
+                                                        ->  Parallel Seq Scan on appointments a  (cost=0.00..66227.80 rows=1249980 width=8) (actual time=0.078..29.488 rows=1000000.00 loops=3)
+                                                              Buffers: shared hit=3576 read=50152
+                                                        ->  Parallel Hash  (cost=3164.64..3164.64 rows=61967 width=8) (actual time=8.542..8.543 rows=36609.00 loops=3)
+                                                              Buckets: 131072  Batches: 1  Memory Usage: 5376kB
+                                                              Buffers: shared hit=108191
+                                                              ->  Parallel Index Scan using idx_presc_issued_at on prescriptions p  (cost=0.43..3164.64 rows=61967 width=8) (actual time=0.015..6.479 rows=36609.00 loops=3)
+                                                                    Index Cond: ((issued_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (issued_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                                                                    Index Searches: 1
+                                                                    Buffers: shared hit=108191
+                                                  ->  Hash  (cost=1068.00..1068.00 rows=59901 width=6) (actual time=5.963..5.963 rows=60000.00 loops=3)
+                                                        Buckets: 65536  Batches: 1  Memory Usage: 2739kB
+                                                        Buffers: shared hit=984
+                                                        ->  Seq Scan on doctor_specializations ds  (cost=0.00..1068.00 rows=59901 width=6) (actual time=0.013..3.037 rows=60000.00 loops=3)
+                                                              Filter: is_primary
+                                                              Rows Removed by Filter: 14000
+                                                              Buffers: shared hit=984
+                                            ->  Hash  (cost=1.15..1.15 rows=15 width=15) (actual time=0.018..0.018 rows=15.00 loops=3)
+                                                  Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                  Buffers: shared hit=3
+                                                  ->  Seq Scan on specializations s  (cost=0.00..1.15 rows=15 width=15) (actual time=0.015..0.015 rows=15.00 loops=3)
+                                                        Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=666
+Planning Time: 1.075 ms
+Execution Time: 238.923 ms
+=== R15 run 3 ===
+Incremental Sort  (cost=149333.90..149405.69 rows=225 width=38) (actual time=260.592..261.904 rows=225.00 loops=1)
+  Sort Key: s.spec_name, (count(*)) DESC
+  Presorted Key: s.spec_name
+  Full-sort Groups: 5  Sort Method: quicksort  Average Memory: 27kB  Peak Memory: 27kB
+  Buffers: shared hit=113619 read=91746
+  ->  Finalize GroupAggregate  (cost=149328.99..149398.19 rows=225 width=38) (actual time=260.550..261.821 rows=225.00 loops=1)
+        Group Key: s.spec_name, i.medicine_name
+        Buffers: shared hit=113616 read=91746
+        ->  Gather Merge  (cost=149328.99..149391.89 rows=540 width=38) (actual time=260.542..261.771 rows=675.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=113616 read=91746
+              ->  Sort  (cost=148328.97..148329.53 rows=225 width=38) (actual time=258.684..258.698 rows=225.00 loops=3)
+                    Sort Key: s.spec_name, i.medicine_name
+                    Sort Method: quicksort  Memory: 37kB
+                    Buffers: shared hit=113616 read=91746
+                    Worker 0:  Sort Method: quicksort  Memory: 37kB
+                    Worker 1:  Sort Method: quicksort  Memory: 37kB
+                    ->  Partial HashAggregate  (cost=148317.93..148320.18 rows=225 width=38) (actual time=258.550..258.569 rows=225.00 loops=3)
+                          Group Key: s.spec_name, i.medicine_name
+                          Batches: 1  Memory Usage: 48kB
+                          Buffers: shared hit=113600 read=91746
+                          Worker 0:  Batches: 1  Memory Usage: 48kB
+                          Worker 1:  Batches: 1  Memory Usage: 48kB
+                          ->  Parallel Hash Join  (cost=76650.99..147433.50 rows=117924 width=30) (actual time=232.300..248.486 rows=91544.00 loops=3)
+                                Hash Cond: (i.prescription_id = p.prescription_id)
+                                Buffers: shared hit=113600 read=91746
+                                ->  Parallel Seq Scan on prescription_items i  (cost=0.00..62695.39 rows=2025539 width=21) (actual time=0.064..41.779 rows=1620360.00 loops=3)
+                                      Buffers: shared hit=564 read=41876
+                                ->  Parallel Hash  (cost=76061.39..76061.39 rows=47168 width=17) (actual time=121.857..121.866 rows=36609.00 loops=3)
+                                      Buckets: 131072  Batches: 1  Memory Usage: 6880kB
+                                      Buffers: shared hit=113036 read=49870
+                                      ->  Hash Join  (cost=5757.33..76061.39 rows=47168 width=17) (actual time=99.135..119.289 rows=36609.00 loops=3)
+                                            Hash Cond: (ds.spec_id = s.spec_id)
+                                            Buffers: shared hit=113036 read=49870
+                                            ->  Hash Join  (cost=5755.99..75901.25 rows=47168 width=6) (actual time=99.111..116.903 rows=36609.00 loops=3)
+                                                  Hash Cond: (a.doctor_id = ds.doctor_id)
+                                                  Buffers: shared hit=113033 read=49870
+                                                  ->  Parallel Hash Join  (cost=3939.23..73448.22 rows=43893 width=8) (actual time=93.626..105.141 rows=36609.00 loops=3)
+                                                        Hash Cond: (a.appointment_id = p.appointment_id)
+                                                        Buffers: shared hit=112049 read=49870
+                                                        ->  Parallel Seq Scan on appointments a  (cost=0.00..66227.80 rows=1249980 width=8) (actual time=0.109..31.135 rows=1000000.00 loops=3)
+                                                              Buffers: shared hit=3858 read=49870
+                                                        ->  Parallel Hash  (cost=3164.64..3164.64 rows=61967 width=8) (actual time=8.602..8.602 rows=36609.00 loops=3)
+                                                              Buckets: 131072  Batches: 1  Memory Usage: 5376kB
+                                                              Buffers: shared hit=108191
+                                                              ->  Parallel Index Scan using idx_presc_issued_at on prescriptions p  (cost=0.43..3164.64 rows=61967 width=8) (actual time=0.008..6.644 rows=36609.00 loops=3)
+                                                                    Index Cond: ((issued_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (issued_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                                                                    Index Searches: 1
+                                                                    Buffers: shared hit=108191
+                                                  ->  Hash  (cost=1068.00..1068.00 rows=59901 width=6) (actual time=5.445..5.445 rows=60000.00 loops=3)
+                                                        Buckets: 65536  Batches: 1  Memory Usage: 2739kB
+                                                        Buffers: shared hit=984
+                                                        ->  Seq Scan on doctor_specializations ds  (cost=0.00..1068.00 rows=59901 width=6) (actual time=0.013..2.793 rows=60000.00 loops=3)
+                                                              Filter: is_primary
+                                                              Rows Removed by Filter: 14000
+                                                              Buffers: shared hit=984
+                                            ->  Hash  (cost=1.15..1.15 rows=15 width=15) (actual time=0.019..0.019 rows=15.00 loops=3)
+                                                  Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                                  Buffers: shared hit=3
+                                                  ->  Seq Scan on specializations s  (cost=0.00..1.15 rows=15 width=15) (actual time=0.015..0.016 rows=15.00 loops=3)
+                                                        Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=666
+Planning Time: 1.062 ms
+Execution Time: 261.981 ms

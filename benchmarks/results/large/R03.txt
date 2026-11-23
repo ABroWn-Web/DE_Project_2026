@@ -1,0 +1,84 @@
+=== R03 run 1 ===
+Merge Anti Join  (cost=160.33..179.61 rows=1994 width=8) (actual time=0.104..0.105 rows=11.00 loops=1)
+  Merge Cond: (slot.slot = a.slot_start)
+  Buffers: shared hit=11 read=4
+  ->  Sort  (cost=159.90..164.90 rows=2000 width=8) (actual time=0.029..0.029 rows=12.00 loops=1)
+        Sort Key: slot.slot
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=7
+        ->  Nested Loop  (cost=0.45..50.24 rows=2000 width=8) (actual time=0.023..0.024 rows=12.00 loops=1)
+              Buffers: shared hit=7
+              ->  Index Scan using doctor_schedules_pkey on doctor_schedules sc  (cost=0.42..10.21 rows=2 width=18) (actual time=0.013..0.013 rows=1.00 loops=1)
+                    Index Cond: ((doctor_id = 217) AND (weekday = 5))
+                    Filter: (clinic_id IS NOT NULL)
+                    Rows Removed by Filter: 1
+                    Index Searches: 1
+                    Buffers: shared hit=7
+              ->  Function Scan on generate_series slot  (cost=0.02..10.03 rows=1000 width=8) (actual time=0.009..0.009 rows=12.00 loops=1)
+  ->  Index Only Scan using idx_appt_doctor_slot on appointments a  (cost=0.43..9.53 rows=50 width=8) (actual time=0.054..0.070 rows=167.00 loops=1)
+        Index Cond: (doctor_id = 217)
+        Filter: ((status)::text <> 'CANCELLED'::text)
+        Rows Removed by Filter: 11
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=4 read=4
+Planning:
+  Buffers: shared hit=458
+Planning Time: 1.218 ms
+Execution Time: 0.134 ms
+=== R03 run 2 ===
+Merge Anti Join  (cost=160.33..179.61 rows=1994 width=8) (actual time=0.077..0.078 rows=11.00 loops=1)
+  Merge Cond: (slot.slot = a.slot_start)
+  Buffers: shared hit=15
+  ->  Sort  (cost=159.90..164.90 rows=2000 width=8) (actual time=0.030..0.031 rows=12.00 loops=1)
+        Sort Key: slot.slot
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=7
+        ->  Nested Loop  (cost=0.45..50.24 rows=2000 width=8) (actual time=0.023..0.024 rows=12.00 loops=1)
+              Buffers: shared hit=7
+              ->  Index Scan using doctor_schedules_pkey on doctor_schedules sc  (cost=0.42..10.21 rows=2 width=18) (actual time=0.012..0.012 rows=1.00 loops=1)
+                    Index Cond: ((doctor_id = 217) AND (weekday = 5))
+                    Filter: (clinic_id IS NOT NULL)
+                    Rows Removed by Filter: 1
+                    Index Searches: 1
+                    Buffers: shared hit=7
+              ->  Function Scan on generate_series slot  (cost=0.02..10.03 rows=1000 width=8) (actual time=0.010..0.010 rows=12.00 loops=1)
+  ->  Index Only Scan using idx_appt_doctor_slot on appointments a  (cost=0.43..9.53 rows=50 width=8) (actual time=0.029..0.042 rows=167.00 loops=1)
+        Index Cond: (doctor_id = 217)
+        Filter: ((status)::text <> 'CANCELLED'::text)
+        Rows Removed by Filter: 11
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=8
+Planning:
+  Buffers: shared hit=458
+Planning Time: 0.616 ms
+Execution Time: 0.106 ms
+=== R03 run 3 ===
+Merge Anti Join  (cost=160.33..179.61 rows=1994 width=8) (actual time=0.069..0.070 rows=11.00 loops=1)
+  Merge Cond: (slot.slot = a.slot_start)
+  Buffers: shared hit=15
+  ->  Sort  (cost=159.90..164.90 rows=2000 width=8) (actual time=0.025..0.025 rows=12.00 loops=1)
+        Sort Key: slot.slot
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=7
+        ->  Nested Loop  (cost=0.45..50.24 rows=2000 width=8) (actual time=0.020..0.021 rows=12.00 loops=1)
+              Buffers: shared hit=7
+              ->  Index Scan using doctor_schedules_pkey on doctor_schedules sc  (cost=0.42..10.21 rows=2 width=18) (actual time=0.011..0.012 rows=1.00 loops=1)
+                    Index Cond: ((doctor_id = 217) AND (weekday = 5))
+                    Filter: (clinic_id IS NOT NULL)
+                    Rows Removed by Filter: 1
+                    Index Searches: 1
+                    Buffers: shared hit=7
+              ->  Function Scan on generate_series slot  (cost=0.02..10.03 rows=1000 width=8) (actual time=0.007..0.008 rows=12.00 loops=1)
+  ->  Index Only Scan using idx_appt_doctor_slot on appointments a  (cost=0.43..9.53 rows=50 width=8) (actual time=0.026..0.040 rows=167.00 loops=1)
+        Index Cond: (doctor_id = 217)
+        Filter: ((status)::text <> 'CANCELLED'::text)
+        Rows Removed by Filter: 11
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=8
+Planning:
+  Buffers: shared hit=458
+Planning Time: 0.553 ms
+Execution Time: 0.095 ms

@@ -1,0 +1,19 @@
+                                                                                   QUERY PLAN                                                                                    
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Finalize Aggregate  (cost=5737.13..5737.14 rows=1 width=8) (actual time=18.854..20.051 rows=1.00 loops=1)
+   Buffers: shared hit=3008
+   ->  Gather  (cost=5736.92..5737.13 rows=2 width=8) (actual time=18.792..20.047 rows=2.00 loops=1)
+         Workers Planned: 1
+         Workers Launched: 1
+         Buffers: shared hit=3008
+         ->  Partial Aggregate  (cost=4736.92..4736.93 rows=1 width=8) (actual time=16.346..16.346 rows=1.00 loops=2)
+               Buffers: shared hit=3008
+               ->  Parallel Seq Scan on appointments_2026_06 appointments_partitioned  (cost=0.00..4489.93 rows=98795 width=0) (actual time=0.006..12.849 rows=83976.00 loops=2)
+                     Filter: ((slot_start >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (slot_start < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                     Buffers: shared hit=3008
+ Planning:
+   Buffers: shared hit=538 read=7
+ Planning Time: 2.523 ms
+ Execution Time: 20.094 ms
+(15 rows)
+

@@ -1,0 +1,30 @@
+=== R21 run 1 ===
+Limit  (cost=0.42..24.66 rows=100 width=25) (actual time=0.014..0.254 rows=100.00 loops=1)
+  Buffers: shared hit=3 read=100
+  ->  Index Scan Backward using idx_appt_unpaid_completed on appointments  (cost=0.42..113024.68 rows=466232 width=25) (actual time=0.013..0.250 rows=100.00 loops=1)
+        Index Searches: 1
+        Buffers: shared hit=3 read=100
+Planning:
+  Buffers: shared hit=216 read=2
+Planning Time: 0.375 ms
+Execution Time: 0.265 ms
+=== R21 run 2 ===
+Limit  (cost=0.42..24.66 rows=100 width=25) (actual time=0.007..0.108 rows=100.00 loops=1)
+  Buffers: shared hit=103
+  ->  Index Scan Backward using idx_appt_unpaid_completed on appointments  (cost=0.42..113024.68 rows=466232 width=25) (actual time=0.006..0.104 rows=100.00 loops=1)
+        Index Searches: 1
+        Buffers: shared hit=103
+Planning:
+  Buffers: shared hit=218
+Planning Time: 0.358 ms
+Execution Time: 0.120 ms
+=== R21 run 3 ===
+Limit  (cost=0.42..24.66 rows=100 width=25) (actual time=0.007..0.106 rows=100.00 loops=1)
+  Buffers: shared hit=103
+  ->  Index Scan Backward using idx_appt_unpaid_completed on appointments  (cost=0.42..113024.68 rows=466232 width=25) (actual time=0.006..0.102 rows=100.00 loops=1)
+        Index Searches: 1
+        Buffers: shared hit=103
+Planning:
+  Buffers: shared hit=218
+Planning Time: 0.335 ms
+Execution Time: 0.117 ms

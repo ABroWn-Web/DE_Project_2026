@@ -1,0 +1,72 @@
+=== R20 run 1 ===
+WindowAgg  (cost=10352.54..10642.92 rows=16594 width=44) (actual time=19.518..19.524 rows=26.00 loops=1)
+  Window: w1 AS (ORDER BY ((appointments.slot_start)::date))
+  Storage: Memory  Maximum Storage: 17kB
+  Buffers: shared hit=1206 read=1
+  ->  Sort  (cost=10352.53..10394.01 rows=16594 width=12) (actual time=19.508..19.509 rows=26.00 loops=1)
+        Sort Key: ((appointments.slot_start)::date)
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=1206 read=1
+        ->  HashAggregate  (cost=8982.00..9189.42 rows=16594 width=12) (actual time=19.436..19.499 rows=26.00 loops=1)
+              Group Key: (appointments.slot_start)::date
+              Batches: 1  Memory Usage: 545kB
+              Buffers: shared hit=1203 read=1
+              ->  Index Only Scan using idx_appt_slot_covering on appointments  (cost=0.43..8352.23 rows=125953 width=4) (actual time=0.011..13.699 rows=137597.00 loops=1)
+                    Index Cond: ((slot_start >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (slot_start < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Filter: ((status)::text = 'COMPLETED'::text)
+                    Rows Removed by Filter: 30355
+                    Heap Fetches: 0
+                    Index Searches: 1
+                    Buffers: shared hit=1203 read=1
+Planning:
+  Buffers: shared hit=251 read=1
+Planning Time: 0.443 ms
+Execution Time: 19.586 ms
+=== R20 run 2 ===
+WindowAgg  (cost=10352.54..10642.92 rows=16594 width=44) (actual time=19.733..19.739 rows=26.00 loops=1)
+  Window: w1 AS (ORDER BY ((appointments.slot_start)::date))
+  Storage: Memory  Maximum Storage: 17kB
+  Buffers: shared hit=1207
+  ->  Sort  (cost=10352.53..10394.01 rows=16594 width=12) (actual time=19.723..19.723 rows=26.00 loops=1)
+        Sort Key: ((appointments.slot_start)::date)
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=1207
+        ->  HashAggregate  (cost=8982.00..9189.42 rows=16594 width=12) (actual time=19.652..19.715 rows=26.00 loops=1)
+              Group Key: (appointments.slot_start)::date
+              Batches: 1  Memory Usage: 545kB
+              Buffers: shared hit=1204
+              ->  Index Only Scan using idx_appt_slot_covering on appointments  (cost=0.43..8352.23 rows=125953 width=4) (actual time=0.009..13.843 rows=137597.00 loops=1)
+                    Index Cond: ((slot_start >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (slot_start < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Filter: ((status)::text = 'COMPLETED'::text)
+                    Rows Removed by Filter: 30355
+                    Heap Fetches: 0
+                    Index Searches: 1
+                    Buffers: shared hit=1204
+Planning:
+  Buffers: shared hit=252
+Planning Time: 0.382 ms
+Execution Time: 19.835 ms
+=== R20 run 3 ===
+WindowAgg  (cost=10352.54..10642.92 rows=16594 width=44) (actual time=19.526..19.532 rows=26.00 loops=1)
+  Window: w1 AS (ORDER BY ((appointments.slot_start)::date))
+  Storage: Memory  Maximum Storage: 17kB
+  Buffers: shared hit=1207
+  ->  Sort  (cost=10352.53..10394.01 rows=16594 width=12) (actual time=19.517..19.518 rows=26.00 loops=1)
+        Sort Key: ((appointments.slot_start)::date)
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=1207
+        ->  HashAggregate  (cost=8982.00..9189.42 rows=16594 width=12) (actual time=19.447..19.510 rows=26.00 loops=1)
+              Group Key: (appointments.slot_start)::date
+              Batches: 1  Memory Usage: 545kB
+              Buffers: shared hit=1204
+              ->  Index Only Scan using idx_appt_slot_covering on appointments  (cost=0.43..8352.23 rows=125953 width=4) (actual time=0.010..13.651 rows=137597.00 loops=1)
+                    Index Cond: ((slot_start >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (slot_start < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Filter: ((status)::text = 'COMPLETED'::text)
+                    Rows Removed by Filter: 30355
+                    Heap Fetches: 0
+                    Index Searches: 1
+                    Buffers: shared hit=1204
+Planning:
+  Buffers: shared hit=252
+Planning Time: 0.386 ms
+Execution Time: 19.593 ms
